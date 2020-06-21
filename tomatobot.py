@@ -2,6 +2,9 @@ import asyncio
 import discord
 import configparser
 from pathlib import Path
+import os.path
+from os import path
+import os
 
 
 class TomatoBot(discord.Client):
@@ -66,10 +69,15 @@ class TomatoBot(discord.Client):
             else:
                 print("Doesn't look like I'm connected")
 
+Bot_Token=None
 
-# Load Config file
-config = configparser.ConfigParser()
-config.read('config.ini')
+if path.exists('config.ini'):
+    # Load Config file
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    Bot_Token=str(config['BOT']['Token'])
+else:
+    Bot_Token=os.getenv('BOT_TOKEN')
 # Create Bot
 bot = TomatoBot()
-bot.run(str(config['BOT']['Token']))
+bot.run(Bot_Token)
